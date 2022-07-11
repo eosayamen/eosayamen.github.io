@@ -1,1 +1,0 @@
-# eosayamen.github.io
