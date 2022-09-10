@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <title>Chart.js</title>
+</head>
+<style>
+body{background-color: black;
+
+}
+.chartCard {
+width: 150%;
+height: 100%;
+background-color: black;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+</style>
+
+
+<body >
+
+    <div class="col-8  my-5">
+        <div >
+            <div class="card-body">
+<div class="chartCard">
+   <canvas id="myChart"></canvas>
+        
+    </div>
+                
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+
+        drawChart();
+
+        async function drawChart() {
+            const datapoints = await getData();
+            const labels = datapoints.labels;
+            const plugin = {
+                id: 'movechart',
+                /*
+                afterEvent(chart, args){
+                     const { ctx, canvas, chartArea: { left, right, top, bottom, width, height } } = chart;
+
+                     canvas.addEventListener('mousemove', (event)=>{
+                    const x =args.event.x;
+                    const y = args.event.y;
+
+                    if(x>= left-15 && x <= left + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15){
+                        canvas.style.cursor = 'pointer';
+                    }  else if (x >= right - 15 && x <= right + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15){
+                        canvas.style.cursor = 'pointer';
+                    }
+                    else{
+                        canvas.style.cursor = 'default';
+                    }
+  
+                     })
+                },
+                afterDraw(chart, args,pluginOptions){
+                    const {ctx,chartArea:{left,right, top, bottom, width, height} }= chart;
+
+                    
+                    class Circle{
+                      //  constructor(x1,y1){
+
+                      //  }
+                      draw(ctx, x1, y1, pixel){
+                            const angle = Math.PI / 180;
+                            ctx.beginPath();
+                            ctx.lineWidth = 3;
+                            ctx.strokeStyle = "rgba(153, 102, 255)";
+                            ctx.fillStyle = "white";
+                            ctx.arc(x1, height / 2 + top, 15, angle * 0, angle * 360, false);
+                            ctx.stroke();
+                            ctx.fill();
+                            ctx.closePath();
+                            ctx.beginPath();
+                            ctx.lineWidth = 3;
+                            ctx.strokeStyle = "rgba(153, 102, 255, 1)";
+                            ctx.moveTo(x1 + pixel, height / 2 + top - 7.5);
+                            ctx.lineTo(x1 - pixel, height / 2 + top);
+                            ctx.lineTo(x1 + pixel, height / 2 + top + 7.5);
+                            ctx.stroke();
+                            ctx.closePath();
+
+                      }
+                    }
+                   let drawCircleLeft = new Circle();
+                   drawCircleLeft.draw(ctx,left, 1, 5);
+
+                   let drawCircleRight = new Circle();
+                    drawCircleRight.draw(ctx, right, 1, -5);
+                },
+                */
+                id: 'custom_canvas_background_color',
+                beforeDraw: (chart) => {
+                    const ctx = chart.canvas.getContext('2d');
+                    ctx.save();
+                    ctx.globalCompositeOperation = 'destination-over';
+                    ctx.fillStyle = 'black';
+                    ctx.fillRect(0, 0, chart.width, chart.height);
+                    ctx.restore();
+                }
+            };
+            // const NUMBER_CFG=
+            //    [{ datapoints, min: -100, max: 100, rmin: 1, rmax: 20 }],
+            const data = {
+                labels: labels,
+                datasets: [{
+                    label: ' Number of Undergrad Students Who Completed',
+                    fill: true,
+                    tension: 0.4,
+                    data:
+                        //datapoints.numbersize,
+                        datapoints.numberdata,
+
+                    backgroundColor: [//'rgba(255, 99, 132, 0.2)'
+                        'rgba(231, 76, 60)',
+                        // 'rgba(153, 102, 255)',
+                    ],
+                  //  borderColor: 'black',
+                   // borderWidth: 2,
+
+                }, {
+                    label: 'Number of Graduate Students Who Completed',
+                    fill: true,
+                    tension: 0.4,
+                
+                    data:
+                        //datapoints.numbersize,
+                        datapoints.numbersize,
+                    
+                    
+                    backgroundColor: [//'rgba(255, 99, 132, 0.2)'
+                        'rgb(39, 174, 96)',
+                      //  'rgb(255, 99, 132)',
+                    ],
+                   // borderColor: 'black',
+                    //borderWidth: 2,
+
+                }, ]
+            };
+            // </block:setup>
+
+            let delayed;
+            const config = {
+                type: 'bar',
+                data: data,
+                options: {
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: "white"
+                            }
+                        },
+
+                    },
+                  
+                    animation: {
+                        onComplete: () => {
+                            delayed = true;
+                        },
+                        delay: (context) => {
+                            let delay = 0;
+                            if (context.type === 'data' && context.mode === 'default' && !delayed) {
+                                delay = context.dataIndex * 300 + context.datasetIndex * 100;
+                            }
+                            return delay;
+                            },
+                    },
+                   // indexAxis: 'y',
+                     scales: {
+                         x: {
+                             ticks: {
+                                 color: "white"
+
+                             },
+
+                             stacked: true,
+
+                         },
+                        y: {
+                             ticks: {
+                                 color: "white"
+
+                             },
+
+                            
+                            stacked: true,
+                        }
+                    },
+                },
+             
+            };
+            // </block:config>
+
+            //  module.exports = {
+            //     actions: [],
+            //      config: config,
+            //   };
+
+
+            const myChart = new Chart(
+                document.getElementById('myChart'),
+                config
+            );
+        };
+        function moveScroll(){
+            const { ctx, chartArea: { left, right, top, bottom, width, height } } =  myChart;
+            canvas.addEventListener('click', (event) =>{
+                const rect =canvas.getBoundingClientRect();
+                const x= event.clientX- rect.left;
+                const y = event.clientY - rect.top;
+                console.log(x)
+            if (x >= left - 15 && x <= left + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15){
+                myChart.options.scales.x.min =  myChart.options.scales.x.min - 7;
+                myChart.options.scales.x.max = myChart.options.scales.x.max - 7;
+            if(myChart.options.scales.x.max>= data.datasets[0],data.length){
+                myChart.options.scales.x.min = data.datasets[0], data.length -7;
+                myChart.options.scales.x.max = data.datasets[0], data.length;
+                };
+       myChart.update();
+             }
+                if (x >= left - 15 && x <= left + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15) {
+                    myChart.options.scales.x.min = myChart.options.scales.x.min - 7;
+                    myChart.options.scales.x.max = myChart.options.scales.x.max - 7;
+                    if (myChart.options.scales.x.max >= data.datasets[0], data.length) {
+                        myChart.options.scales.x.min = data.datasets[0], data.length - 7;
+                        myChart.options.scales.x.max = data.datasets[0], data.length;
+                    };
+                   }  
+            })
+     myChart.ctx.onclick = moveScroll();    }
+        
+
+
+        async function getData() {
+            const labels = [];
+            const numberdata = [];
+            const numbersize = [];
+           // const numbergame = [];
+            const response = await fetch("csv/stud.csv");
+            const tabledata = await response.text();
+            //console.log(tabledata);
+            const table = tabledata.split("\n").slice(1);
+            //console.log(table);
+            table.forEach(row => {
+                const column = row.split(',');
+                // console.log(column);
+                const Year = column[0];
+                const Number = column[1];
+                const size = column[2];
+                //const game = column[3];
+                labels.push(Year);
+                numberdata.push(Number);
+                numbersize.push(size);
+               // numbergame.push(game);
+                //a = parseInt(a, 10);
+
+            });
+            // labels.shift();
+            //labels.unshift();
+            // function removeCommas(labels) {
+            //    return (labels.replace(/,/g, ''));
+
+            //  };
+            labels.push();
+            numberdata.pop();
+            numbersize.unshift();
+           // numbergame.unshift();
+            // console.log(labels);
+            return {
+                labels, numberdata, numbersize
+            };
+
+
+        }
+
+        function createRange(min, max) {
+            var range = [];
+            for (let i = min; i <= max; i++) {
+                range.push(i);
+            }
+            return range;
+        }
+    
+    </script>
+
+
+
+</body>
+
+</html>

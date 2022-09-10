@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang ="en">
+<head>
+<meta charset="UTF-8">
+<title> animated timeline </title>
+<link rel="stylesheet" type="text/css" href="main.css">
+</head>
+
+<body>
+
+<div class= "container">
+	<div class="top-section">
+	<div class="time">
+		<h1 style="transform: translateX(20%);">
+			Black Presence at UMass Amherst
+<div class="spend">
+</div>
+</div>
+	<div class="java">
+	
+<iframe onmousewheel="" frameborder="0" style="border-width:0;" id="cdr-timeline-iframe" width="900" height="480"
+	src="https://www.chronoflotimeline.com/timeline/embed/8200/9684141030/"></iframe>
+<script type="text/javascript">
+	(function () {
+		if (window.postMessage) {
+			var cdrMouseupFunc = function () {
+				var cdrIFrame = document.getElementById("cdr-timeline-iframe");
+				if (cdrIFrame.contentWindow && cdrIFrame.contentWindow.postMessage) {
+					cdrIFrame.contentWindow.postMessage("mouseup", "*");
+				}
+			}
+			if (typeof window.addEventListener != "undefined") {
+				window.addEventListener("mouseup", cdrMouseupFunc, false);
+			}
+			else if (typeof window.attachEvent != "undefined") {
+				window.attachEvent("onmouseup", cdrMouseupFunc);
+			}
+		}
+	})()
+</script>
+	
+</div>
+	</div>
+
+	<h1 style="transform: translate(30%, 140%);">
+		Enjoy Our Charts
+	</h1>
+	<p  style="transform: translate(5%,80%);">
+		These graphics below represent statistics on black
+		students and faculty after 1973. Prior to the 1970's, the university did not collect data on the racial makeup of
+		the campus. Demographic data was not consistently reported. The figures reflect the current make-up of the UMass
+		black population. However, the aberration in the reporting left four (1978-1981) and twelve (1984-1995) years
+		unaccounted for when documenting the number of black students and their
+		completion rates.</p>
+
+<div class="timeline" >
+		
+	<div class="line"></div>
+	<div class="section" style=" transform: translate(-65%, 25%)">
+		<div class="bead" style="transform: translate(3205%, -790%);"></div>
+				<h2 style="transform: translate( 110%,-790%);">Number of Black Students</h2>
+		<div class="content">
+			<div>
+			<p>
+			<embed type="text/html" src="Total Black Students.html" width="555" height="500">	
+			</p>
+	</div>	
+		</div>
+	</div>
+
+	<div class="section" style=" transform: translate(-10%, 10%)">
+		<div class="bead" style="transform: translate(455%, -540%);"></div>
+		<h2 style="transform: translate( 100%,-540%);">Number of Black Faculty</h2>
+		<div class="content">
+			<p>	
+			<embed type="text/html" src="Number of Black Faculty.html" width="600" height="300">
+
+			</p>
+		</div>
+	</div>
+	<div class="section" style=" transform: translate(-95%, 40%)">
+		<div class="bead" style="transform: translate(4705%,-490% );"></div>
+	<h2 style="transform: translate( 110%,-490%);">Black Student Undergraduate Admission Rate</h2>
+		<div class="content">
+			
+			<p>
+					<embed type="text/html" src="Number of Black Admission.html" width="600" height="300">
+			</p>
+		</div>
+	</div>
+
+	<div class="section" style=" transform: translate(15%, 50%)">
+		<div class="bead" style="transform: translate(-795%,-500%);"></div>
+		<h2 style="transform: translate( 15%,-500%);">Black Student Graduate Admission Rate</h2>
+		<div class="content">
+			
+			<p>
+				
+			<embed type="text/html" src="Number of Graduate Admission.html" width="600" height="300">
+				
+				
+			</p>
+		</div>
+	</div>
+
+	<div class="section" style=" transform: translate(-75%, 25%)">
+		<div class="bead" style="transform: translate(3705%,-200% );" ></div>
+		<h2 style="transform: translate( 120%,-550%);">Black Student Completion Rate</h2>
+		<div class="content">
+			
+			<p>
+				<embed type="text/html" src="Completion Rate.html" width="640" height="500">
+				
+			</p>
+		</div>
+	</div>
+</div>
+
+</div>
+
+<script src="timeline.js" ></script>
+</body>
+</html>
